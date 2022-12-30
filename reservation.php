@@ -148,61 +148,76 @@ session_start();
                             <label for="retdate">Return Date</label>
                             <input type="date" class="form-control" id="retdate" placeholder="Date">
                         </div>
+                        <div class="form-group">
+                        <label for="select">Selected Car ID</label>
+                        <input type="text" class="form-control" id="location" placeholder="...">
+                        </div>
                         <button type="submit" class="btn btn-primary">Reserve Car Now</button>
                         </form>
                         </div>
                     </div>
                 </div>
 
-                <div class="col-xl-4 col-lg-10">
+                <div class="col-xl-4 col-lg-9">
                     <!-- Basic Card Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
                             <h6 class="m-0 font-weight-bold text-primary">Search Cars</h6>
                         </div>
                         <div class="card-body">
+                         <!--                      -->
                         <form>
                         <div class="form-group">
-                            <label for="location">Pickup Location</label>
-                            <input type="text" class="form-control" id="location" placeholder="City, Airport, Station, etc">
                         </div>
-                        <div class="form-group">
-                            <label for="pickdate">Pick Up Date</label>
-                            <input type="date" class="form-control" id="pickdate" placeholder="Date">
+                        <div class="input-group">
+                            <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
+                                aria-label="Search" aria-describedby="basic-addon2">
+                            <div class="input-group-append">
+                                <button class="btn btn-primary" type="button">
+                                    <i class="fas fa-search fa-sm"></i>
+                                </button>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="retdate">Return Date</label>
-                            <input type="date" class="form-control" id="retdate" placeholder="Date">
-                        </div>
-                        <button type="submit" class="btn btn-primary">Search</button>
+                            <label class="form-label" for="form1"></label><br>
+                            <input type="radio" id="color" name="radio" value="color">
+                            <label for="color">Color</label><br>
+                            <input type="radio" id="brand" name="radio" value="brand">
+                            <label for="brand">Brand</label><br>
+                            <input type="radio" id="motor" name="radio" value="motor">
+                            <label for="motor">Motor</label><br>
+                            <input type="radio" id="year" name="radio" value="year">
+                            <label for="year">Year</label><br>
+                            <input type="radio" id="line" name="radio" value="line">
+                            <label for="line">Line</label><br><br><br><br><br>
+                            </div>
                         </form>
+                        <br><br> 
                         </div>
                     </div>
                 </div>
-              </div>
                 
               <div class="row">
                <div class="col-xl-11 col-lg-3">
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">Reservations</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">Search Results</h6>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
                             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                 <thead>
                                     <tr>
-                                        <th>Car ID</th>
-                                        <th>Model</th>
-                                        <th>Office</th>
+                                        <th>Vehicle ID</th>
+                                        <th>Plate ID</th>
+                                        <th>Price/Day</th>
+                                        <th>Year Model</th>
+                                        <th>Color</th>
+                                        <th>Line</th>
+                                        <th>Motor</th>
+                                        <th>Brand</th>        
                                     </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <th>22</th>
-                                    <th>Toyota</th>
-                                    <th>Japan</th>
-                                </tr>
                                 </tbody>
                             </table>
                         </div>

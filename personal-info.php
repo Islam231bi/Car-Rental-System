@@ -254,3 +254,34 @@ session_start();
 </body>
 
 </html>
+
+
+<div class="row">
+               <div class="col-xl-11 col-lg-3">
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">Search Results</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <thead>
+                                    <tr>
+                                        <th>Vehicle ID</th>
+                                        <th>Plate ID</th>
+                                        <th>Price/Day</th>
+                                        <th>Year Model</th>
+                                        <th>Color</th>
+                                        <th>Line</th>
+                                        <th>Motor</th>
+                                        <th>Brand</th>        
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+               </div>
+              </div>
