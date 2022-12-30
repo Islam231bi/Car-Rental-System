@@ -1,4 +1,5 @@
 <?php
+session_start();
 
 @include 'config.php';
 
@@ -15,9 +16,17 @@ if(isset($_POST['submit'])){
 
    if(mysqli_num_rows($result) > 0){
 
-      session_start();
       $row = mysqli_fetch_array($result);
-      header("Location: personal-info.html");
+
+      //Set session variables
+      $_SESSION["full name"] = $row["fname"]." ".$row["lname"];
+      $_SESSION["email"] = $row["email"];
+      $_SESSION["phone"] = "cat";
+      $_SESSION["address"] = $row["city"]." ".$row["country"];
+      $_SESSION["bdate"] = $row["bdate"];
+      $_SESSION["ssn"] = $row["licesnse"];
+
+      header("Location: personal-info.php");
      
    }else{
       $error[] = 'Incorrect email or password!';
@@ -52,8 +61,8 @@ if(isset($_POST['submit'])){
          };
       };
       ?>
-      <input type="email" name="email" required placeholder="enter your email">
-      <input type="password" name="password" required placeholder="enter your password">
+      <input type="email" name="email" required placeholder="Enter your email">
+      <input type="password" name="password" required placeholder="Enter your password">
       <input type="submit" name="submit" value="login now" class="form-btn">
       <p>Don't have an account?     <a href="register_form.php">Register Now</a></p>
       <p>Admin?                     <a href="admin_login.php">Login Now</a></p>

@@ -11,6 +11,7 @@ if(isset($_POST['submit'])){
    $bdate = mysqli_real_escape_string($conn, $_POST['bdate']);
    $country = mysqli_real_escape_string($conn, $_POST['country']);
    $city = mysqli_real_escape_string($conn, $_POST['city']);
+   // $phone_no = mysqli_real_escape_string($conn, $_POST['phone_no']);
    $pass = md5($_POST['password']);
    $cpass = md5($_POST['cpassword']);
    //$user_type = $_POST['user_type'];
@@ -21,7 +22,7 @@ if(isset($_POST['submit'])){
 
    if(mysqli_num_rows($result) > 0){
 
-      $error[] = 'user already exist!';
+      $error[] = 'User already exist!';
 
    }else{
 
@@ -46,7 +47,7 @@ if(isset($_POST['submit'])){
    <meta charset="UTF-8">
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>register form</title>
+   <title>Register form</title>
    <!-- custom css file link  -->
    <link rel="stylesheet" href="css/style.css">
    <link rel="stylesheet" href="css/form.css">
@@ -64,7 +65,7 @@ if(isset($_POST['submit'])){
          };
       };
       ?>
-      <input type="text" id="lic" name="license" required placeholder="enter your license">
+      <input type="text" id="lic" name="license" required placeholder="Enter your license">
       <div id="lisenceerror">Please enter a valid SSN.</div>
       <input type="text" name="fname" required placeholder="Enter your first name">
       <input type="text" name="lname" required placeholder="Enter your last name">
@@ -72,6 +73,7 @@ if(isset($_POST['submit'])){
       <input type="date" name="bdate" required placeholder="birthday">
       <input type="text" name="country" required placeholder="Enter your country">
       <input type="text" name="city" required placeholder="Enter your city">
+      <input type="text" name="phone_no" required placeholder="Enter your Phone number">
       <div id="countryerror">Please select a country.</div>
       <input type="password" id="pass" name="password" required placeholder="Enter your password">
       <div id="passerror">Please enter a valid Password.</div>

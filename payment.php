@@ -1,3 +1,7 @@
+<?php
+session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -9,7 +13,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Personal Information</title>
+    <title>Payment</title>
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -40,7 +44,7 @@
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item">
-                <a class="nav-link" href= "personal-info.html">
+                <a class="nav-link" href= "personal-info.php">
                     <i class="fas fa-fw fa-user"></i>
                     <span>Profile Information</span></a>
             </li>
@@ -51,7 +55,7 @@
 
            <!-- Nav Item -->
            <li class="nav-item">
-            <a class="nav-link collapsed" href= "reservation.html">
+            <a class="nav-link collapsed" href= "reservation.php">
                 <i class="fas fa-fw fa-exclamation-triangle"></i>
                 <span>Reservation</span>
             </a>
@@ -62,7 +66,7 @@
 
             <!-- Nav Item -->
             <li class="nav-item">
-                <a class="nav-link collapsed" href= "payment.html">
+                <a class="nav-link collapsed" href= "payment.php">
                     <i class="fas fa-fw fa-donate"></i>
                     <span>Payment</span>
                 </a>
@@ -100,7 +104,7 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Islam Bassuni</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?php echo $_SESSION['full name']; ?></span>
                                 <img class="img-profile rounded-circle"
                                     src="imgs/avatar.jpg">
                             </a>
@@ -131,8 +135,8 @@
                                 <div class="card-body text-center">
                                   <img src="imgs/avatar.jpg" alt="avatar"
                                     class="rounded-circle img-fluid" style="width: 150px;">
-                                  <h5 class="my-3">Islam Bassuni</h5>
-                                  <p class="text-muted mb-4">Bay Area, San Francisco, CA</p>
+                                  <h5 class="my-3"><?php echo $_SESSION['full name']; ?></h5>
+                                  <p class="text-muted mb-4"><?php echo $_SESSION['address']; ?></p>
                                 </div>
                               </div>
                             </div>
@@ -144,7 +148,7 @@
                                       <p class="mb-0">Full Name</p>
                                     </div>
                                     <div class="col-sm-9">
-                                      <p class="text-muted mb-0">Johnatan Smith</p>
+                                      <p class="text-muted mb-0"><?php echo $_SESSION['full name']; ?></p>
                                     </div>
                                   </div>
                                   <hr>
@@ -153,7 +157,7 @@
                                       <p class="mb-0">Email</p>
                                     </div>
                                     <div class="col-sm-9">
-                                      <p class="text-muted mb-0">example@example.com</p>
+                                      <p class="text-muted mb-0"><?php echo $_SESSION['email']; ?></p>
                                     </div>
                                   </div>
                                   <hr>
@@ -168,19 +172,10 @@
                                   <hr>
                                   <div class="row">
                                     <div class="col-sm-3">
-                                      <p class="mb-0">Mobile</p>
-                                    </div>
-                                    <div class="col-sm-9">
-                                      <p class="text-muted mb-0">(098) 765-4321</p>
-                                    </div>
-                                  </div>
-                                  <hr>
-                                  <div class="row">
-                                    <div class="col-sm-3">
                                       <p class="mb-0">Address</p>
                                     </div>
                                     <div class="col-sm-9">
-                                      <p class="text-muted mb-0">Bay Area, San Francisco, CA</p>
+                                      <p class="text-muted mb-0"><?php echo $_SESSION['address']; ?></p>
                                     </div>
                                   </div>
                                   <hr>
@@ -189,7 +184,7 @@
                                       <p class="mb-0">Birth Date</p>
                                     </div>
                                     <div class="col-sm-9">
-                                      <p class="text-muted mb-0">23/11/2000</p>
+                                      <p class="text-muted mb-0"><?php echo $_SESSION['bdate']; ?></p>
                                     </div>
                                   </div>
                                 </div>

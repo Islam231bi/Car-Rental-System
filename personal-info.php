@@ -1,3 +1,7 @@
+<?php
+session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -9,7 +13,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Payment</title>
+    <title>Personal Information</title>
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -40,7 +44,7 @@
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item">
-                <a class="nav-link" href= "personal-info.html">
+                <a class="nav-link" href= "personal-info.php">
                     <i class="fas fa-fw fa-user"></i>
                     <span>Profile Information</span></a>
             </li>
@@ -51,7 +55,7 @@
 
            <!-- Nav Item -->
            <li class="nav-item">
-            <a class="nav-link collapsed" href= "reservation.html">
+            <a class="nav-link collapsed" href= "reservation.php">
                 <i class="fas fa-fw fa-exclamation-triangle"></i>
                 <span>Reservation</span>
             </a>
@@ -62,7 +66,7 @@
 
             <!-- Nav Item -->
             <li class="nav-item">
-                <a class="nav-link collapsed" href= "payment.html">
+                <a class="nav-link collapsed" href= "payment.php">
                     <i class="fas fa-fw fa-donate"></i>
                     <span>Payment</span>
                 </a>
@@ -100,9 +104,9 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Islam Bassuni</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?php echo $_SESSION['full name']; ?></span>
                                 <img class="img-profile rounded-circle"
-                                    src="img/undraw_profile.svg">
+                                    src="imgs/avatar.jpg">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -122,8 +126,73 @@
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
 
-                    <!-- Page Heading -->
-                    <h1 class="h3 mb-4 text-gray-800">Blank Page</h1>
+                    <section>
+                        <div class="container py-3">
+                      
+                          <div class="row">
+                            <div class="col-lg-4">
+                              <div class="card mb-4">
+                                <div class="card-body text-center">
+                                  <img src="imgs/avatar.jpg" alt="avatar"
+                                    class="rounded-circle img-fluid" style="width: 150px;">
+                                  <h5 class="my-3"><?php echo $_SESSION['full name']; ?></h5>
+                                  <p class="text-muted mb-4"><?php echo $_SESSION['address']; ?></p>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-lg-8">
+                              <div class="card mb-4">
+                                <div class="card-body">
+                                  <div class="row">
+                                    <div class="col-sm-3">
+                                      <p class="mb-0">Full Name</p>
+                                    </div>
+                                    <div class="col-sm-9">
+                                      <p class="text-muted mb-0"><?php echo $_SESSION['full name']; ?></p>
+                                    </div>
+                                  </div>
+                                  <hr>
+                                  <div class="row">
+                                    <div class="col-sm-3">
+                                      <p class="mb-0">Email</p>
+                                    </div>
+                                    <div class="col-sm-9">
+                                      <p class="text-muted mb-0"><?php echo $_SESSION['email']; ?></p>
+                                    </div>
+                                  </div>
+                                  <hr>
+                                  <div class="row">
+                                    <div class="col-sm-3">
+                                      <p class="mb-0">Phone</p>
+                                    </div>
+                                    <div class="col-sm-9">
+                                      <p class="text-muted mb-0">(097) 234-5678</p>
+                                    </div>
+                                  </div>
+                                  <hr>
+                                  <div class="row">
+                                    <div class="col-sm-3">
+                                      <p class="mb-0">Address</p>
+                                    </div>
+                                    <div class="col-sm-9">
+                                      <p class="text-muted mb-0"><?php echo $_SESSION['address']; ?></p>
+                                    </div>
+                                  </div>
+                                  <hr>
+                                  <div class="row">
+                                    <div class="col-sm-3">
+                                      <p class="mb-0">Birth Date</p>
+                                    </div>
+                                    <div class="col-sm-9">
+                                      <p class="text-muted mb-0"><?php echo $_SESSION['bdate']; ?></p>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>                               
+                            </div>
+                          </div>
+                        </div>
+                      </section>
 
                 </div>
                 <!-- /.container-fluid -->
@@ -166,7 +235,7 @@
                 <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="../user_login.php">Logout</a>
+                    <a class="btn btn-primary" href="logout.php">Logout</a>
                 </div>
             </div>
         </div>
