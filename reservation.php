@@ -124,10 +124,65 @@ session_start();
                 </nav>
                 <!-- End of Topbar -->
 
-                 <!-- Begin Page Content -->
-                 <div class="container-fluid">
+            <!-- Begin Page Content -->
+            <div class="container-fluid">
 
-                <!-- DataTales Example -->
+              <div class="row">
+                <div class="col-xl-4 col-lg-10">
+                    <!-- Basic Card Example -->
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Reservation Details</h6>
+                        </div>
+                        <div class="card-body">
+                        <form>
+                        <div class="form-group">
+                            <label for="location">Pickup Location</label>
+                            <input type="text" class="form-control" id="location" placeholder="City, Airport, Station, etc">
+                        </div>
+                        <div class="form-group">
+                            <label for="pickdate">Pick Up Date</label>
+                            <input type="date" class="form-control" id="pickdate" placeholder="Date">
+                        </div>
+                        <div class="form-group">
+                            <label for="retdate">Return Date</label>
+                            <input type="date" class="form-control" id="retdate" placeholder="Date">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Reserve Car Now</button>
+                        </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-4 col-lg-10">
+                    <!-- Basic Card Example -->
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Search Cars</h6>
+                        </div>
+                        <div class="card-body">
+                        <form>
+                        <div class="form-group">
+                            <label for="location">Pickup Location</label>
+                            <input type="text" class="form-control" id="location" placeholder="City, Airport, Station, etc">
+                        </div>
+                        <div class="form-group">
+                            <label for="pickdate">Pick Up Date</label>
+                            <input type="date" class="form-control" id="pickdate" placeholder="Date">
+                        </div>
+                        <div class="form-group">
+                            <label for="retdate">Return Date</label>
+                            <input type="date" class="form-control" id="retdate" placeholder="Date">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Search</button>
+                        </form>
+                        </div>
+                    </div>
+                </div>
+              </div>
+                
+              <div class="row">
+               <div class="col-xl-11 col-lg-3">
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
                         <h6 class="m-0 font-weight-bold text-primary">Reservations</h6>
@@ -142,24 +197,19 @@ session_start();
                                         <th>Office</th>
                                     </tr>
                                 </thead>
-                                <tfoot>
-                                    <tr>
-                                        <th>Car ID</th>
-                                        <th>Model</th>
-                                        <th>Office</th>
-                                    </tr>
-                                </tfoot>
                                 <tbody>
                                 <tr>
                                     <th>22</th>
                                     <th>Toyota</th>
                                     <th>Japan</th>
-                                    </tr>
+                                </tr>
                                 </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
+               </div>
+              </div>
 
 
             </div>
