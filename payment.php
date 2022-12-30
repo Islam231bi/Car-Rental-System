@@ -125,75 +125,7 @@ session_start();
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
-
-                    <section>
-                        <div class="container py-3">
-                      
-                          <div class="row">
-                            <div class="col-lg-4">
-                              <div class="card mb-4">
-                                <div class="card-body text-center">
-                                  <img src="imgs/avatar.jpg" alt="avatar"
-                                    class="rounded-circle img-fluid" style="width: 150px;">
-                                  <h5 class="my-3"><?php echo $_SESSION['full name']; ?></h5>
-                                  <p class="text-muted mb-4"><?php echo $_SESSION['address']; ?></p>
-                                </div>
-                              </div>
-                            </div>
-                            <div class="col-lg-8">
-                              <div class="card mb-4">
-                                <div class="card-body">
-                                  <div class="row">
-                                    <div class="col-sm-3">
-                                      <p class="mb-0">Full Name</p>
-                                    </div>
-                                    <div class="col-sm-9">
-                                      <p class="text-muted mb-0"><?php echo $_SESSION['full name']; ?></p>
-                                    </div>
-                                  </div>
-                                  <hr>
-                                  <div class="row">
-                                    <div class="col-sm-3">
-                                      <p class="mb-0">Email</p>
-                                    </div>
-                                    <div class="col-sm-9">
-                                      <p class="text-muted mb-0"><?php echo $_SESSION['email']; ?></p>
-                                    </div>
-                                  </div>
-                                  <hr>
-                                  <div class="row">
-                                    <div class="col-sm-3">
-                                      <p class="mb-0">Phone</p>
-                                    </div>
-                                    <div class="col-sm-9">
-                                      <p class="text-muted mb-0">(097) 234-5678</p>
-                                    </div>
-                                  </div>
-                                  <hr>
-                                  <div class="row">
-                                    <div class="col-sm-3">
-                                      <p class="mb-0">Address</p>
-                                    </div>
-                                    <div class="col-sm-9">
-                                      <p class="text-muted mb-0"><?php echo $_SESSION['address']; ?></p>
-                                    </div>
-                                  </div>
-                                  <hr>
-                                  <div class="row">
-                                    <div class="col-sm-3">
-                                      <p class="mb-0">Birth Date</p>
-                                    </div>
-                                    <div class="col-sm-9">
-                                      <p class="text-muted mb-0"><?php echo $_SESSION['bdate']; ?></p>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>                               
-                            </div>
-                          </div>
-                        </div>
-                      </section>
-
+                    
                 </div>
                 <!-- /.container-fluid -->
 

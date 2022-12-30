@@ -11,7 +11,7 @@ if(isset($_POST['submit'])){
    $bdate = mysqli_real_escape_string($conn, $_POST['bdate']);
    $country = mysqli_real_escape_string($conn, $_POST['country']);
    $city = mysqli_real_escape_string($conn, $_POST['city']);
-   // $phone_no = mysqli_real_escape_string($conn, $_POST['phone_no']);
+   $phone_no = mysqli_real_escape_string($conn, $_POST['phone_no']);
    $pass = md5($_POST['password']);
    $cpass = md5($_POST['cpassword']);
    //$user_type = $_POST['user_type'];
@@ -30,7 +30,9 @@ if(isset($_POST['submit'])){
          $error[] = 'password not matched!';
       }else{
          $insert = "INSERT INTO customer(fname, lname, email, password, license, bdate, country, city) VALUES('$fname','$lname','$email','$pass','$license','$bdate','$country','$city')";
+         $insert2 = "INSERT INTO cust_phone_no(cust_license	,phone_no) VALUES ('$license','$phone_no')";	
          mysqli_query($conn, $insert);
+         mysqli_query($conn, $insert2);
          header('location:user_login.php');
       }
    }

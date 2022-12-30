@@ -11,6 +11,7 @@ if(isset($_POST['submit'])){
    $pass = md5($_POST['password']);
    
    $select = " SELECT * FROM customer WHERE email = '$email' && password = '$pass' ";
+   
 
    $result = mysqli_query($conn, $select);
 
@@ -24,7 +25,13 @@ if(isset($_POST['submit'])){
       $_SESSION["phone"] = "cat";
       $_SESSION["address"] = $row["city"]." ".$row["country"];
       $_SESSION["bdate"] = $row["bdate"];
-      $_SESSION["ssn"] = $row["licesnse"];
+      $_SESSION["ssn"] = $row["license"];
+      $ssn = $row["license"];
+
+      $select2 = "SELECT * FROM cust_phone_no WHERE cust_license = '$ssn' ";
+      $result2 = mysqli_query($conn, $select2);
+      $row2 = mysqli_fetch_array($result2);
+      $_SESSION["pn"] = $row2["phone_no"];
 
       header("Location: personal-info.php");
      

@@ -166,7 +166,7 @@ session_start();
                                       <p class="mb-0">Phone</p>
                                     </div>
                                     <div class="col-sm-9">
-                                      <p class="text-muted mb-0">(097) 234-5678</p>
+                                      <p class="text-muted mb-0"><?php echo $_SESSION['pn']; ?></p>
                                     </div>
                                   </div>
                                   <hr>

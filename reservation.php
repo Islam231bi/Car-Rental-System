@@ -1,5 +1,23 @@
 <?php
 session_start();
+
+
+@include 'config.php';
+
+
+if(isset($_POST['submit'])){
+
+$sql = "INSERT INTO reservation (reservation_ID, pickupdate, pickuplocation, returndate,reservedate,
+customer_license, vehicle_no)
+VALUES (NULL,'2000-11-23', 'alexandria','2000-11-23','2000-11-23','{$_SESSION['ssn']}','1')";
+
+if (mysqli_query($conn, $sql)) {
+    echo "New record created successfully";
+  } else {
+    echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+  }
+
+};
 ?>
 
 <!DOCTYPE html>
@@ -152,7 +170,7 @@ session_start();
                         <label for="select">Selected Car ID</label>
                         <input type="text" class="form-control" id="location" placeholder="...">
                         </div>
-                        <button type="submit" class="btn btn-primary">Reserve Car Now</button>
+                        <input type="submit" name="submit" class="btn btn-primary" value="Reserve Car Now">
                         </form>
                         </div>
                     </div>
