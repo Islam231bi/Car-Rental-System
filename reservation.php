@@ -6,9 +6,14 @@ session_start();
 
 if(isset($_POST['submit'])){
 
-$sql = "INSERT INTO reservation (reservation_ID, pickupdate, pickuplocation, returndate,reservedate,
-customer_license, vehicle_no)
-VALUES (NULL,'2000-11-23', 'alexandria','2000-11-23','2000-11-23','{$_SESSION['ssn']}','1')";
+$pickDate = mysqli_real_escape_string($conn, $_POST['pickdate']);
+$pickLocation = mysqli_real_escape_string($conn, $_POST['location']);
+$retDate = mysqli_real_escape_string($conn, $_POST['retdate']);
+$resDate = date("Y/m/d");
+$car_no = mysqli_real_escape_string($conn, $_POST['car']);
+
+$sql = "INSERT INTO reservation (reservation_ID, pickupdate, pickuplocation, returndate,reservedate,customer_license, vehicle_no)
+VALUES (NULL,'$pickDate', '$pickLocation','$retDate','$resDate','{$_SESSION['ssn']}','$car_no')";
 
 mysqli_query($conn, $sql);
 
@@ -151,19 +156,19 @@ mysqli_query($conn, $sql);
                         <form action="" method ="post">
                         <div class="form-group">
                             <label for="location">Pickup Location</label>
-                            <input type="text" class="form-control" id="location" placeholder="City, Airport, Station, etc">
+                            <input type="text" class="form-control" name="location" placeholder="City, Airport, Station, etc">
                         </div>
                         <div class="form-group">
                             <label for="pickdate">Pick Up Date</label>
-                            <input type="date" class="form-control" id="pickdate" placeholder="Date">
+                            <input type="date" class="form-control" name="pickdate" placeholder="Date">
                         </div>
                         <div class="form-group">
                             <label for="retdate">Return Date</label>
-                            <input type="date" class="form-control" id="retdate" placeholder="Date">
+                            <input type="date" class="form-control" name="retdate" placeholder="Date">
                         </div>
                         <div class="form-group">
                         <label for="select">Selected Car ID</label>
-                        <input type="text" class="form-control" id="location" placeholder="...">
+                        <input type="text" class="form-control" name="car" placeholder="...">
                         </div>
                         <input type="submit" name="submit" class="btn btn-primary" value="Reserve Car Now">
                         </form>
