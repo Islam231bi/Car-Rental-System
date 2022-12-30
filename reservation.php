@@ -23,6 +23,7 @@ session_start();
 
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
 </head>
 
@@ -123,79 +124,46 @@ session_start();
                 </nav>
                 <!-- End of Topbar -->
 
-                <!-- Begin Page Content -->
-                <div class="container-fluid">
+                 <!-- Begin Page Content -->
+                 <div class="container-fluid">
 
-                    <section>
-                        <div class="container py-3">
-                      
-                          <div class="row">
-                            <div class="col-lg-4">
-                              <div class="card mb-4">
-                                <div class="card-body text-center">
-                                  <img src="imgs/avatar.jpg" alt="avatar"
-                                    class="rounded-circle img-fluid" style="width: 150px;">
-                                  <h5 class="my-3"><?php echo $_SESSION['full name']; ?></h5>
-                                  <p class="text-muted mb-4"><?php echo $_SESSION['address']; ?></p>
-                                </div>
-                              </div>
-                            </div>
-                            <div class="col-lg-8">
-                              <div class="card mb-4">
-                                <div class="card-body">
-                                  <div class="row">
-                                    <div class="col-sm-3">
-                                      <p class="mb-0">Full Name</p>
-                                    </div>
-                                    <div class="col-sm-9">
-                                      <p class="text-muted mb-0"><?php echo $_SESSION['full name']; ?></p>
-                                    </div>
-                                  </div>
-                                  <hr>
-                                  <div class="row">
-                                    <div class="col-sm-3">
-                                      <p class="mb-0">Email</p>
-                                    </div>
-                                    <div class="col-sm-9">
-                                      <p class="text-muted mb-0"><?php echo $_SESSION['email']; ?></p>
-                                    </div>
-                                  </div>
-                                  <hr>
-                                  <div class="row">
-                                    <div class="col-sm-3">
-                                      <p class="mb-0">Phone</p>
-                                    </div>
-                                    <div class="col-sm-9">
-                                      <p class="text-muted mb-0">(097) 234-5678</p>
-                                    </div>
-                                  </div>
-                                  <hr>
-                                  <div class="row">
-                                    <div class="col-sm-3">
-                                      <p class="mb-0">Address</p>
-                                    </div>
-                                    <div class="col-sm-9">
-                                      <p class="text-muted mb-0"><?php echo $_SESSION['address']; ?></p>
-                                    </div>
-                                  </div>
-                                  <hr>
-                                  <div class="row">
-                                    <div class="col-sm-3">
-                                      <p class="mb-0">Birth Date</p>
-                                    </div>
-                                    <div class="col-sm-9">
-                                      <p class="text-muted mb-0"><?php echo $_SESSION['bdate']; ?></p>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>                               
-                            </div>
-                          </div>
+                <!-- DataTales Example -->
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">Reservations</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <thead>
+                                    <tr>
+                                        <th>Car ID</th>
+                                        <th>Model</th>
+                                        <th>Office</th>
+                                    </tr>
+                                </thead>
+                                <tfoot>
+                                    <tr>
+                                        <th>Car ID</th>
+                                        <th>Model</th>
+                                        <th>Office</th>
+                                    </tr>
+                                </tfoot>
+                                <tbody>
+                                <tr>
+                                    <th>22</th>
+                                    <th>Toyota</th>
+                                    <th>Japan</th>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
-                      </section>
-
+                    </div>
                 </div>
-                <!-- /.container-fluid -->
+
+
+            </div>
+            <!-- /.container-fluid -->
 
             </div>
             <!-- End of Main Content -->
@@ -250,6 +218,13 @@ session_start();
 
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin-2.min.js"></script>
+
+    <!-- Page level plugins -->
+    <script src="vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="js/demo/datatables-demo.js"></script>
 
 </body>
 
