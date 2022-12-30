@@ -1,0 +1,6 @@
+#lisenceerror,
+#passerror,
+#countryerror {
+  color: red;
+  display: none;
+}
