@@ -1,5 +1,5 @@
 <?php 
-include_once('connection.php'); 
+ @include 'config.php';
 
  session_start();
 $startdate = mysqli_real_escape_string($conn, $_POST['start-date']);
