@@ -27,8 +27,41 @@ if(mysqli_num_rows($result) > 0){
 else{
     
     mysqli_query($conn, $sql);
+
+    $_SESSION["car_id"] = $car_no;
+    header("Location: reservation.php");
  }
 
+};
+
+
+if(isset($_POST['pay'])){
+
+    $car_id = $_SESSION["car_id"];
+    $payDate = date("Y/m/d");
+    $payMeth = mysqli_real_escape_string($conn, $_POST['paymeth']);
+    $reserve = 15;
+    $price = NULL;
+
+    $select1 = " SELECT * FROM vehicle WHERE vehicle_ID = '$car_id' ";
+
+    $result1 = mysqli_query($conn, $select1);
+
+    if(mysqli_num_rows($result1) > 0){
+
+        $row = mysqli_fetch_array($result1);
+        $price = $row["daily_price"];
+
+    }
+    else{
+        echo "Error";
+    }
+
+    $sql1 = "INSERT INTO rent(rent_ID, customer_license, vehicle_no, paydate,paymethod,payment, reserve_ID)
+VALUES (NULL,'{$_SESSION['ssn']}', '$car_id','$payDate','$payMeth','$price','$reserve')";
+
+mysqli_query($conn, $sql1);
+    
 };
 
 ?>
@@ -188,7 +221,12 @@ else{
                         <label for="select">Selected Car ID</label>
                         <input type="text" class="form-control" name="car" placeholder="...">
                         </div>
+                        <div class="form-group">
+                        <label for="pay">Payment Method</label>
+                        <input type="text" class="form-control" name="paymeth" placeholder="Visa, Cash,...">
+                        </div>
                         <input type="submit" name="submit" class="btn btn-primary" value="Reserve Car Now">
+                        &nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" name="pay" class="btn btn-primary" value="Pay Now">
                         </form>
                         </div>
                     </div>
@@ -232,7 +270,7 @@ else{
                             <label for="office">(Egypt, Japan, Germany,...)</label><br>
                             <input type="radio" name="radio" value="line">
                             <label for="line">Line</label>&nbsp;
-                            <label for="line">(Basic, Top, Sport,...)</label><br><br><br><br>
+                            <label for="line">(Basic, Top, Sport,...)</label><br><br><br><br><br><br><br>
                             </div>
                         </form>
                         <br><br> 
