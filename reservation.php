@@ -147,7 +147,7 @@ mysqli_query($conn, $sql);
             <div class="container-fluid">
 
               <div class="row">
-                <div class="col-xl-4 col-lg-10">
+                <div class="col-xl-6 col-lg-10">
                     <!-- Basic Card Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
@@ -177,7 +177,7 @@ mysqli_query($conn, $sql);
                     </div>
                 </div>
 
-                <div class="col-xl-4 col-lg-9">
+                <div class="col-xl-5 col-lg-9">
                     <!-- Basic Card Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
@@ -265,7 +265,7 @@ mysqli_query($conn, $sql);
                                                 $select = " SELECT * FROM vehicle WHERE motor = '$search_val' ";     
                                             }
                                             else if ($answer == "year") {          
-                                                $select = " SELECT * FROM vehicle WHERE year = '$search_val' ";      
+                                                $select = " SELECT * FROM vehicle WHERE year_model = '$search_val' ";      
                                             }
                                             else if ($answer == "line") {          
                                                 $select = " SELECT * FROM vehicle WHERE line = '$search_val' ";     
@@ -281,14 +281,14 @@ mysqli_query($conn, $sql);
                                         
                                                 while($row = mysqli_fetch_array($result)){
                                                     echo "<tr>";
-                                                    echo "<td> Vehicle ID: ".$row["vehicle_ID"]."</td>";
-                                                    echo "<td> Plate ID: ".$row["plate_ID"]."</td>";
-                                                    echo "<td> Price/day: ".$row["daily_price"]."</td>";
-                                                    echo "<td> Year of Production: ".$row["year_model"]."</td>";
-                                                    echo "<td> Color: ".$row["color"]."</td>";
-                                                    echo "<td> line: ".$row["line"]."</td>";
-                                                    echo "<td> Motor: ".$row["motor"]."</td>";
-                                                    echo "<td> Brand: ".$row["brand"]."</td>";
+                                                    echo "<td> ".$row["vehicle_ID"]."</td>";
+                                                    echo "<td> ".$row["plate_ID"]."</td>";
+                                                    echo "<td> ".$row["daily_price"]."</td>";
+                                                    echo "<td> ".$row["year_model"]."</td>";
+                                                    echo "<td> ".$row["color"]."</td>";
+                                                    echo "<td> ".$row["line"]."</td>";
+                                                    echo "<td> ".$row["motor"]."</td>";
+                                                    echo "<td> ".$row["brand"]."</td>";
                                                     echo "</tr>";
                                                 }
                                             }
