@@ -51,13 +51,25 @@ if(isset($_POST['search'])){
 
     if(mysqli_num_rows($result) > 0){
 
-        $row = mysqli_fetch_array($result);
-        
-
+        while($row = mysqli_fetch_array($result)){
+            echo "<tr>";
+            echo "<td> Vehicle ID: ".$row["vehicle_ID"]."</td>";
+            echo "<td> Plate ID: ".$row["plate_ID"]."</td>";
+            echo "<td> Price/day: ".$row["daily_price"]."</td>";
+            echo "<td> Year of Production: ".$row["year_model"]."</td>";
+            echo "<td> Color: ".$row["color"]."</td>";
+            echo "<td> line: ".$row["line"]."</td>";
+            echo "<td> Motor: ".$row["motor"]."</td>";
+            echo "<td> Brand: ".$row["brand"]."</td>";
+            echo "</tr>";
+        }
+        echo "</table>";
     }
     else { 
             echo '<script>alert("No Results Found")</script>';
     }
+
+
 
     
 };
