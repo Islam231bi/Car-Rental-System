@@ -4,65 +4,80 @@
 
 session_start();
 
-if(isset($_POST['submit'])){
+if (isset($_POST['submit'])) {
 
-$pickDate = mysqli_real_escape_string($conn, $_POST['pickdate']);
-$pickLocation = mysqli_real_escape_string($conn, $_POST['location']);
-$retDate = mysqli_real_escape_string($conn, $_POST['retdate']);
-$resDate = date("Y/m/d");
-$car_no = mysqli_real_escape_string($conn, $_POST['car']);
+    $pickDate = mysqli_real_escape_string($conn, $_POST['pickdate']);
+    $pickLocation = mysqli_real_escape_string($conn, $_POST['location']);
+    $retDate = mysqli_real_escape_string($conn, $_POST['retdate']);
+    $resDate = date("Y/m/d");
+    $car_no = mysqli_real_escape_string($conn, $_POST['car']);
 
-$sql = "INSERT INTO reservation (reservation_ID, pickupdate, pickuplocation, returndate,reservedate,customer_license, vehicle_no)
-VALUES (NULL,'$pickDate', '$pickLocation','$retDate','$resDate','{$_SESSION['ssn']}','$car_no')";
+    $sql = "INSERT INTO reservation (pickupdate, pickuplocation, returndate,reservedate,customer_license, vehicle_no)
+VALUES ('$pickDate', '$pickLocation','$retDate','$resDate','{$_SESSION['ssn']}','$car_no')";
 
-$qry = " SELECT * FROM reservation WHERE vehicle_no	 = '$car_no' ";
 
-$result = mysqli_query($conn, $qry);
+    $qry = " SELECT * FROM reservation WHERE vehicle_no	 = '$car_no' AND '$pickDate' < returndate";
 
-if(mysqli_num_rows($result) > 0){
+    $result = mysqli_query($conn, $qry);
 
-     // error
-     echo '<script>alert("Car already reserved")</script>';
+    if (mysqli_num_rows($result) > 0) {
+
+        // error
+        echo '<script>alert("Car already reserved")</script>';
+    } else {
+
+        mysqli_query($conn, $sql);
+
+        $_SESSION["car_id"] = $car_no;
+        header("Location: reservation.php");
+    }
+
 }
-else{
-    
-    mysqli_query($conn, $sql);
-
-    $_SESSION["car_id"] = $car_no;
-    header("Location: reservation.php");
- }
-
-};
+;
 
 
-if(isset($_POST['pay'])){
+if (isset($_POST['pay'])) {
 
     $car_id = $_SESSION["car_id"];
     $payDate = date("Y/m/d");
     $payMeth = mysqli_real_escape_string($conn, $_POST['paymeth']);
-    $reserve = 15;
+    $pickDate = mysqli_real_escape_string($conn, $_POST['pickdate']);
+    $pickLocation = mysqli_real_escape_string($conn, $_POST['location']);
+    $retDate = mysqli_real_escape_string($conn, $_POST['retdate']);
+    $reserve = NULL;
     $price = NULL;
-
-    $select1 = " SELECT * FROM vehicle WHERE vehicle_ID = '$car_id' ";
+    $select1 = " SELECT daily_price,reservation_ID FROM vehicle,reservation WHERE vehicle_no=vehicle_ID
+    AND vehicle_ID = '$car_id' AND pickupdate='$pickDate' AND returndate='$retDate' ";
 
     $result1 = mysqli_query($conn, $select1);
 
-    if(mysqli_num_rows($result1) > 0){
+    if (mysqli_num_rows($result1) > 0) {
 
         $row = mysqli_fetch_array($result1);
         $price = $row["daily_price"];
+        $reserve = $row['reservation_ID'];
 
-    }
-    else{
+    } else {
         echo "Error";
     }
+    // create datetime format values
+    $format = 'Y-m-d';
+    $pickDate = DateTime::createFromFormat($format, $pickDate);
+    $retDate = DateTime::createFromFormat($format, $retDate);
 
-    $sql1 = "INSERT INTO rent(rent_ID, customer_license, vehicle_no, paydate,paymethod,payment, reserve_ID)
-VALUES (NULL,'{$_SESSION['ssn']}', '$car_id','$payDate','$payMeth','$price','$reserve')";
+    // calculate the period
+    $period = $pickDate->diff($retDate);
+    $period = $period->format('%a');
 
-mysqli_query($conn, $sql1);
+    $total = $period * $price;
     
-};
+    $sql1 = "INSERT INTO rent(customer_license, vehicle_no, paydate,paymethod,payment, reserve_ID)
+    VALUES ('{$_SESSION['ssn']}', '$car_id','$payDate','$payMeth','$total','$reserve')";
+
+    mysqli_query($conn, $sql1);
+
+}
+;
 
 ?>
 
@@ -109,7 +124,7 @@ mysqli_query($conn, $sql1);
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item">
-                <a class="nav-link" href= "personal-info.php">
+                <a class="nav-link" href="personal-info.php">
                     <i class="fas fa-fw fa-user"></i>
                     <span>Profile Information</span></a>
             </li>
@@ -118,12 +133,12 @@ mysqli_query($conn, $sql1);
             <hr class="sidebar-divider">
 
 
-           <!-- Nav Item -->
-           <li class="nav-item">
-            <a class="nav-link collapsed" href= "reservation.php">
-                <i class="fas fa-fw fa-exclamation-triangle"></i>
-                <span>Reservation</span>
-            </a>
+            <!-- Nav Item -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="reservation.php">
+                    <i class="fas fa-fw fa-exclamation-triangle"></i>
+                    <span>Reservation</span>
+                </a>
             </li>
 
             <!-- Divider -->
@@ -131,7 +146,7 @@ mysqli_query($conn, $sql1);
 
             <!-- Nav Item -->
             <li class="nav-item">
-                <a class="nav-link collapsed" href= "payment.php">
+                <a class="nav-link collapsed" href="payment.php">
                     <i class="fas fa-fw fa-donate"></i>
                     <span>Payment</span>
                 </a>
@@ -168,15 +183,16 @@ mysqli_query($conn, $sql1);
                     </h2> -->
 
                     <!-- Topbar Navbar -->
-                    <ul class="navbar-nav ml-auto" >
+                    <ul class="navbar-nav ml-auto">
 
                         <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?php echo $_SESSION['full name']; ?></span>
-                                <img class="img-profile rounded-circle"
-                                    src="imgs/avatar.jpg">
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">
+                                    <?php echo $_SESSION['full name']; ?>
+                                </span>
+                                <img class="img-profile rounded-circle" src="imgs/avatar.jpg">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -193,176 +209,176 @@ mysqli_query($conn, $sql1);
                 </nav>
                 <!-- End of Topbar -->
 
-            <!-- Begin Page Content -->
-            <div class="container-fluid">
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
 
-              <div class="row">
-                <div class="col-xl-6 col-lg-10">
-                    <!-- Basic Card Example -->
-                    <div class="card shadow mb-4">
-                        <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Reservation Details</h6>
-                        </div>
-                        <div class="card-body">
-                        <form action="" method ="post">
-                        <div class="form-group">
-                            <label for="location">Pickup Location</label>
-                            <input type="text" class="form-control" name="location" placeholder="City, Airport, Station, etc">
-                        </div>
-                        <div class="form-group">
-                            <label for="pickdate">Pick Up Date</label>
-                            <input type="date" class="form-control" name="pickdate" placeholder="Date">
-                        </div>
-                        <div class="form-group">
-                            <label for="retdate">Return Date</label>
-                            <input type="date" class="form-control" name="retdate" placeholder="Date">
-                        </div>
-                        <div class="form-group">
-                        <label for="select">Selected Car ID</label>
-                        <input type="text" class="form-control" name="car" placeholder="...">
-                        </div>
-                        <div class="form-group">
-                        <label for="pay">Payment Method</label>
-                        <input type="text" class="form-control" name="paymeth" placeholder="Visa, Cash,...">
-                        </div>
-                        <input type="submit" name="submit" class="btn btn-primary" value="Reserve Car Now">
-                        &nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" name="pay" class="btn btn-primary" value="Pay Now">
-                        </form>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-xl-5 col-lg-9">
-                    <!-- Basic Card Example -->
-                    <div class="card shadow mb-4">
-                        <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Search Cars</h6>
-                        </div>
-                        <div class="card-body">
-                         <!--                      -->
-                        <form action="" method ="post">
-                        <div class="form-group">
-                        </div>
-                        <div class="input-group">
-                            <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
-                                aria-label="Search" aria-describedby="basic-addon2" name = "search_area">
-                            <div class="input-group-append">
-                                <button class="btn btn-primary" name="search" type="submit">
-                                    <i class="fas fa-search fa-sm"></i>
-                                </button>
+                    <div class="row">
+                        <div class="col-xl-6 col-lg-10">
+                            <!-- Basic Card Example -->
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">Reservation Details</h6>
+                                </div>
+                                <div class="card-body">
+                                    <form action="" method="post">
+                                        <div class="form-group">
+                                            <label for="location">Pickup Location</label>
+                                            <input type="text" class="form-control" name="location"
+                                                placeholder="City, Airport, Station, etc">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="pickdate">Pick Up Date</label>
+                                            <input type="date" class="form-control" name="pickdate" placeholder="Date">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="retdate">Return Date</label>
+                                            <input type="date" class="form-control" name="retdate" placeholder="Date">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="select">Selected Car ID</label>
+                                            <input type="text" class="form-control" name="car" placeholder="...">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="pay">Payment Method</label>
+                                            <input type="text" class="form-control" name="paymeth"
+                                                placeholder="Visa, Cash,...">
+                                        </div>
+                                        <input type="submit" name="submit" class="btn btn-primary"
+                                            value="Reserve Car Now">
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" name="pay" class="btn btn-primary"
+                                            value="Pay Now">
+                                    </form>
+                                </div>
                             </div>
                         </div>
-                            <label class="form-label" for="form1"></label><br>
-                            <input type="radio" name="radio" value="color">
-                            <label for="color">Color</label>&nbsp;
-                            <label for="color">(black, red, green,...)</label><br>
-                            <input type="radio" name="radio" value="brand">
-                            <label for="brand">Brand</label>&nbsp;
-                            <label for="brand">(Tesla, Toyota, Ford,...)</label><br>
-                            <input type="radio" name="radio" value="motor">
-                            <label for="motor">Motor</label>&nbsp;
-                            <label for="motor">(Gas, Electric, Hybrid,...)</label><br>
-                            <input type="radio" name="radio" value="year">
-                            <label for="year">Year</label>&nbsp;
-                            <label for="year">(2006, 2008, 2022,...)</label><br>
-                            <input type="radio" name="radio" value="office">
-                            <label for="office">Office</label>&nbsp;
-                            <label for="office">(Egypt, Japan, Germany,...)</label><br>
-                            <input type="radio" name="radio" value="line">
-                            <label for="line">Line</label>&nbsp;
-                            <label for="line">(Basic, Top, Sport,...)</label><br><br><br><br><br><br><br>
+
+                        <div class="col-xl-5 col-lg-9">
+                            <!-- Basic Card Example -->
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">Search Cars</h6>
+                                </div>
+                                <div class="card-body">
+                                    <!--                      -->
+                                    <form action="" method="post">
+                                        <div class="form-group">
+                                        </div>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control bg-light border-0 small"
+                                                placeholder="Search for..." aria-label="Search"
+                                                aria-describedby="basic-addon2" name="search_area">
+                                            <div class="input-group-append">
+                                                <button class="btn btn-primary" name="search" type="submit">
+                                                    <i class="fas fa-search fa-sm"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <label class="form-label" for="form1"></label><br>
+                                        <input type="radio" name="radio" value="color">
+                                        <label for="color">Color</label>&nbsp;
+                                        <label for="color">(black, red, green,...)</label><br>
+                                        <input type="radio" name="radio" value="brand">
+                                        <label for="brand">Brand</label>&nbsp;
+                                        <label for="brand">(Tesla, Toyota, Ford,...)</label><br>
+                                        <input type="radio" name="radio" value="motor">
+                                        <label for="motor">Motor</label>&nbsp;
+                                        <label for="motor">(Gas, Electric, Hybrid,...)</label><br>
+                                        <input type="radio" name="radio" value="year">
+                                        <label for="year">Year</label>&nbsp;
+                                        <label for="year">(2006, 2008, 2022,...)</label><br>
+                                        <input type="radio" name="radio" value="office">
+                                        <label for="office">Office</label>&nbsp;
+                                        <label for="office">(Egypt, Japan, Germany,...)</label><br>
+                                        <input type="radio" name="radio" value="line">
+                                        <label for="line">Line</label>&nbsp;
+                                        <label for="line">(Basic, Top, Sport,...)</label><br><br><br><br><br><br><br>
+                                </div>
+                                </form>
+                                <br><br>
                             </div>
-                        </form>
-                        <br><br> 
                         </div>
                     </div>
-                </div>
-                
-              <div class="row">
-               <div class="col-xl-11 col-lg-3">
-                <div class="card shadow mb-4">
-                    <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">Search Results</h6>
-                    </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                <thead>
-                                    <tr>
-                                        <th>Vehicle ID</th>
-                                        <th>Plate ID</th>
-                                        <th>Price/Day</th>
-                                        <th>Year Model</th>
-                                        <th>Color</th>
-                                        <th>Line</th>
-                                        <th>Motor</th>
-                                        <th>Brand</th>        
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php
-                                        @include 'config.php';
-                                        if(isset($_POST['search'])){
 
-                                            //Checking all radio buttons
-                                        
-                                            $answer = $_POST['radio']; 
-                                            $search_val = mysqli_real_escape_string($conn, $_POST['search_area']);
-                                            $select = "";
-                                        
-                                            if ($answer == "color") {          
-                                                $select = " SELECT * FROM vehicle WHERE color = '$search_val' ";      
-                                            }
-                                            else if ($answer == "brand") {          
-                                                $select = " SELECT * FROM vehicle WHERE brand = '$search_val' ";      
-                                            }
-                                            else if ($answer == "motor") {          
-                                                $select = " SELECT * FROM vehicle WHERE motor = '$search_val' ";     
-                                            }
-                                            else if ($answer == "year") {          
-                                                $select = " SELECT * FROM vehicle WHERE year_model = '$search_val' ";      
-                                            }
-                                            else if ($answer == "line") {          
-                                                $select = " SELECT * FROM vehicle WHERE line = '$search_val' ";     
-                                            }
-                                            else if ($answer == "office") {          
-                                                $select = " SELECT * FROM vehicle , is_located, office WHERE  vehicle.vehicle_ID = 
-                                                is_located.vehicle_ID AND is_located.office_number = office.number AND location = '$search_val' ";      
-                                            }
-                                            
-                                            $result = mysqli_query($conn, $select);
-                                        
-                                            if(mysqli_num_rows($result) > 0){
-                                        
-                                                while($row = mysqli_fetch_array($result)){
-                                                    echo "<tr>";
-                                                    echo "<td> ".$row["vehicle_ID"]."</td>";
-                                                    echo "<td> ".$row["plate_ID"]."</td>";
-                                                    echo "<td> ".$row["daily_price"]."</td>";
-                                                    echo "<td> ".$row["year_model"]."</td>";
-                                                    echo "<td> ".$row["color"]."</td>";
-                                                    echo "<td> ".$row["line"]."</td>";
-                                                    echo "<td> ".$row["motor"]."</td>";
-                                                    echo "<td> ".$row["brand"]."</td>";
-                                                    echo "</tr>";
+                    <div class="row">
+                        <div class="col-xl-11 col-lg-3">
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">Search Results</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                            <thead>
+                                                <tr>
+                                                    <th>Vehicle ID</th>
+                                                    <th>Plate ID</th>
+                                                    <th>Price/Day</th>
+                                                    <th>Year Model</th>
+                                                    <th>Color</th>
+                                                    <th>Line</th>
+                                                    <th>Motor</th>
+                                                    <th>Brand</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php
+                                                @include 'config.php';
+                                                if (isset($_POST['search'])) {
+
+                                                    //Checking all radio buttons
+                                                
+                                                    $answer = $_POST['radio'];
+                                                    $search_val = mysqli_real_escape_string($conn, $_POST['search_area']);
+                                                    $select = "";
+
+                                                    if ($answer == "color") {
+                                                        $select = " SELECT * FROM vehicle WHERE color = '$search_val' ";
+                                                    } else if ($answer == "brand") {
+                                                        $select = " SELECT * FROM vehicle WHERE brand = '$search_val' ";
+                                                    } else if ($answer == "motor") {
+                                                        $select = " SELECT * FROM vehicle WHERE motor = '$search_val' ";
+                                                    } else if ($answer == "year") {
+                                                        $select = " SELECT * FROM vehicle WHERE year_model = '$search_val' ";
+                                                    } else if ($answer == "line") {
+                                                        $select = " SELECT * FROM vehicle WHERE line = '$search_val' ";
+                                                    } else if ($answer == "office") {
+                                                        $select = " SELECT * FROM vehicle , is_located, office WHERE  vehicle.vehicle_ID = 
+                                                is_located.vehicle_ID AND is_located.office_number = office.number AND location = '$search_val' ";
+                                                    }
+
+                                                    $result = mysqli_query($conn, $select);
+
+                                                    if (mysqli_num_rows($result) > 0) {
+
+                                                        while ($row = mysqli_fetch_array($result)) {
+                                                            echo "<tr>";
+                                                            echo "<td> " . $row["vehicle_ID"] . "</td>";
+                                                            echo "<td> " . $row["plate_ID"] . "</td>";
+                                                            echo "<td> " . $row["daily_price"] . "</td>";
+                                                            echo "<td> " . $row["year_model"] . "</td>";
+                                                            echo "<td> " . $row["color"] . "</td>";
+                                                            echo "<td> " . $row["line"] . "</td>";
+                                                            echo "<td> " . $row["motor"] . "</td>";
+                                                            echo "<td> " . $row["brand"] . "</td>";
+                                                            echo "</tr>";
+                                                        }
+                                                    } else {
+                                                        echo '<script>alert("No Results Found")</script>';
+                                                    }
                                                 }
-                                            }
-                                            else { 
-                                                    echo '<script>alert("No Results Found")</script>';
-                                            }
-                                        };
-                                    ?>
-                                </tbody>
-                            </table>
+                                                ;
+                                                ?>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
+
+
                 </div>
-               </div>
-              </div>
-
-
-            </div>
-            <!-- /.container-fluid -->
+                <!-- /.container-fluid -->
 
             </div>
             <!-- End of Main Content -->
