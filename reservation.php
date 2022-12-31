@@ -117,8 +117,13 @@ mysqli_query($conn, $sql);
                         <i class="fa fa-bars"></i>
                     </button>
 
+                    <!-- Title of the page
+                    <h2 class="d-none d-sm-inline-block mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                        AAIH For Car Rental Services
+                    </h2> -->
+
                     <!-- Topbar Navbar -->
-                    <ul class="navbar-nav ml-auto">
+                    <ul class="navbar-nav ml-auto" >
 
                         <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">

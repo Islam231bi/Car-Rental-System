@@ -12,8 +12,8 @@ if(isset($_POST['submit'])){
    $country = mysqli_real_escape_string($conn, $_POST['country']);
    $city = mysqli_real_escape_string($conn, $_POST['city']);
    $phone_no = mysqli_real_escape_string($conn, $_POST['phone_no']);
-   $pass = md5($_POST['password']);
-   $cpass = md5($_POST['cpassword']);
+   $pass = $_POST['password'];
+   $cpass = $_POST['cpassword'];
    //$user_type = $_POST['user_type'];
 
    $select = " SELECT * FROM customer WHERE email = '$email' && password = '$pass' || license = '$license'";

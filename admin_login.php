@@ -9,8 +9,8 @@ if(isset($_POST['submit'])){
    $fname = mysqli_real_escape_string($conn, $_POST['fname']);
    $lname = mysqli_real_escape_string($conn, $_POST['lname']);
    $email = mysqli_real_escape_string($conn, $_POST['email']);
-   $pass = md5($_POST['password']);
-   $cpass = md5($_POST['cpassword']);
+   $pass = $_POST['password'];
+   $cpass = $_POST['cpassword'];
 //    $user_type = $_POST['user_type'];
 
    $select = " SELECT * FROM admin WHERE email = '$email' && password = '$pass' ";
@@ -20,6 +20,9 @@ if(isset($_POST['submit'])){
    if(mysqli_num_rows($result) > 0){
 
       $row = mysqli_fetch_array($result);
+      
+      $_SESSION["full name"] = $row["fname"]." ".$row["lname"];
+      header("Location: admin_dashboard.php");
      
    }else{
       $error[] = 'incorrect email or password!';
@@ -53,8 +56,8 @@ if(isset($_POST['submit'])){
          };
       };
       ?>
-      <input type="email" name="email" required placeholder="enter your email">
-      <input type="password" name="password" required placeholder="enter your password">
+      <input type="email" name="email" required placeholder="Enter your email">
+      <input type="password" name="password" required placeholder="Enter your password">
       <input type="submit" name="submit" value="login now" class="form-btn">
       <p>User? <a href="user_login.php">Login now</a></p>
    </form>
