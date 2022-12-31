@@ -19,61 +19,6 @@ mysqli_query($conn, $sql);
 
 };
 
-if(isset($_POST['search'])){
-
-    //Checking all radio buttons
-
-    $answer = $_POST['radio']; 
-    $search_val = mysqli_real_escape_string($conn, $_POST['search_area']);
-    $select = "";
-
-    if ($answer == "color") {          
-        $select = " SELECT * FROM vehicle WHERE color = '$search_val' ";      
-    }
-    else if ($answer == "brand") {          
-        $select = " SELECT * FROM vehicle WHERE brand = '$search_val' ";      
-    }
-    else if ($answer == "motor") {          
-        $select = " SELECT * FROM vehicle WHERE motor = '$search_val' ";     
-    }
-    else if ($answer == "year") {          
-        $select = " SELECT * FROM vehicle WHERE year = '$search_val' ";      
-    }
-    else if ($answer == "line") {          
-        $select = " SELECT * FROM vehicle WHERE line = '$search_val' ";     
-    }
-    else if ($answer == "office") {          
-        $select = " SELECT * FROM vehicle , is_located, office WHERE  vehicle.vehicle_ID = 
-        is_located.vehicle_ID AND is_located.office_number = office.number AND location = '$search_val' ";      
-    }
-    
-    $result = mysqli_query($conn, $select);
-
-    if(mysqli_num_rows($result) > 0){
-
-        while($row = mysqli_fetch_array($result)){
-            echo "<tr>";
-            echo "<td> Vehicle ID: ".$row["vehicle_ID"]."</td>";
-            echo "<td> Plate ID: ".$row["plate_ID"]."</td>";
-            echo "<td> Price/day: ".$row["daily_price"]."</td>";
-            echo "<td> Year of Production: ".$row["year_model"]."</td>";
-            echo "<td> Color: ".$row["color"]."</td>";
-            echo "<td> line: ".$row["line"]."</td>";
-            echo "<td> Motor: ".$row["motor"]."</td>";
-            echo "<td> Brand: ".$row["brand"]."</td>";
-            echo "</tr>";
-        }
-        echo "</table>";
-    }
-    else { 
-            echo '<script>alert("No Results Found")</script>';
-    }
-
-
-
-    
-};
-
 ?>
 
 <!DOCTYPE html>
@@ -300,6 +245,58 @@ if(isset($_POST['search'])){
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    <?php
+                                        @include 'config.php';
+                                        if(isset($_POST['search'])){
+
+                                            //Checking all radio buttons
+                                        
+                                            $answer = $_POST['radio']; 
+                                            $search_val = mysqli_real_escape_string($conn, $_POST['search_area']);
+                                            $select = "";
+                                        
+                                            if ($answer == "color") {          
+                                                $select = " SELECT * FROM vehicle WHERE color = '$search_val' ";      
+                                            }
+                                            else if ($answer == "brand") {          
+                                                $select = " SELECT * FROM vehicle WHERE brand = '$search_val' ";      
+                                            }
+                                            else if ($answer == "motor") {          
+                                                $select = " SELECT * FROM vehicle WHERE motor = '$search_val' ";     
+                                            }
+                                            else if ($answer == "year") {          
+                                                $select = " SELECT * FROM vehicle WHERE year = '$search_val' ";      
+                                            }
+                                            else if ($answer == "line") {          
+                                                $select = " SELECT * FROM vehicle WHERE line = '$search_val' ";     
+                                            }
+                                            else if ($answer == "office") {          
+                                                $select = " SELECT * FROM vehicle , is_located, office WHERE  vehicle.vehicle_ID = 
+                                                is_located.vehicle_ID AND is_located.office_number = office.number AND location = '$search_val' ";      
+                                            }
+                                            
+                                            $result = mysqli_query($conn, $select);
+                                        
+                                            if(mysqli_num_rows($result) > 0){
+                                        
+                                                while($row = mysqli_fetch_array($result)){
+                                                    echo "<tr>";
+                                                    echo "<td> Vehicle ID: ".$row["vehicle_ID"]."</td>";
+                                                    echo "<td> Plate ID: ".$row["plate_ID"]."</td>";
+                                                    echo "<td> Price/day: ".$row["daily_price"]."</td>";
+                                                    echo "<td> Year of Production: ".$row["year_model"]."</td>";
+                                                    echo "<td> Color: ".$row["color"]."</td>";
+                                                    echo "<td> line: ".$row["line"]."</td>";
+                                                    echo "<td> Motor: ".$row["motor"]."</td>";
+                                                    echo "<td> Brand: ".$row["brand"]."</td>";
+                                                    echo "</tr>";
+                                                }
+                                            }
+                                            else { 
+                                                    echo '<script>alert("No Results Found")</script>';
+                                            }
+                                        };
+                                    ?>
                                 </tbody>
                             </table>
                         </div>
