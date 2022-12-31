@@ -15,7 +15,19 @@ $car_no = mysqli_real_escape_string($conn, $_POST['car']);
 $sql = "INSERT INTO reservation (reservation_ID, pickupdate, pickuplocation, returndate,reservedate,customer_license, vehicle_no)
 VALUES (NULL,'$pickDate', '$pickLocation','$retDate','$resDate','{$_SESSION['ssn']}','$car_no')";
 
-mysqli_query($conn, $sql);
+$qry = " SELECT * FROM reservation WHERE vehicle_no	 = '$car_no' ";
+
+$result = mysqli_query($conn, $qry);
+
+if(mysqli_num_rows($result) > 0){
+
+     // error
+     echo '<script>alert("Car already reserved")</script>';
+}
+else{
+    
+    mysqli_query($conn, $sql);
+ }
 
 };
 
