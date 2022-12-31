@@ -18,6 +18,50 @@ VALUES (NULL,'$pickDate', '$pickLocation','$retDate','$resDate','{$_SESSION['ssn
 mysqli_query($conn, $sql);
 
 };
+
+if(isset($_POST['search'])){
+
+    //Checking all radio buttons
+
+    $answer = $_POST['radio']; 
+    $search_val = mysqli_real_escape_string($conn, $_POST['search_area']);
+    $select = "";
+
+    if ($answer == "color") {          
+        $select = " SELECT * FROM vehicle WHERE color = '$search_val' ";      
+    }
+    else if ($answer == "brand") {          
+        $select = " SELECT * FROM vehicle WHERE brand = '$search_val' ";      
+    }
+    else if ($answer == "motor") {          
+        $select = " SELECT * FROM vehicle WHERE motor = '$search_val' ";     
+    }
+    else if ($answer == "year") {          
+        $select = " SELECT * FROM vehicle WHERE year = '$search_val' ";      
+    }
+    else if ($answer == "line") {          
+        $select = " SELECT * FROM vehicle WHERE line = '$search_val' ";     
+    }
+    else if ($answer == "office") {          
+        $select = " SELECT * FROM vehicle , is_located, office WHERE  vehicle.vehicle_ID = 
+        is_located.vehicle_ID AND is_located.office_number = office.number AND location = '$search_val' ";      
+    }
+    
+    $result = mysqli_query($conn, $select);
+
+    if(mysqli_num_rows($result) > 0){
+
+        $row = mysqli_fetch_array($result);
+        
+
+    }
+    else { 
+            echo '<script>alert("No Results Found")</script>';
+    }
+
+    
+};
+
 ?>
 
 <!DOCTYPE html>
@@ -184,29 +228,37 @@ mysqli_query($conn, $sql);
                         </div>
                         <div class="card-body">
                          <!--                      -->
-                        <form>
+                        <form action="" method ="post">
                         <div class="form-group">
                         </div>
                         <div class="input-group">
                             <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
-                                aria-label="Search" aria-describedby="basic-addon2">
+                                aria-label="Search" aria-describedby="basic-addon2" name = "search_area">
                             <div class="input-group-append">
-                                <button class="btn btn-primary" type="button">
+                                <button class="btn btn-primary" name="search" type="submit">
                                     <i class="fas fa-search fa-sm"></i>
                                 </button>
                             </div>
                         </div>
                             <label class="form-label" for="form1"></label><br>
-                            <input type="radio" id="color" name="radio" value="color">
-                            <label for="color">Color</label><br>
-                            <input type="radio" id="brand" name="radio" value="brand">
-                            <label for="brand">Brand</label><br>
-                            <input type="radio" id="motor" name="radio" value="motor">
-                            <label for="motor">Motor</label><br>
-                            <input type="radio" id="year" name="radio" value="year">
-                            <label for="year">Year</label><br>
-                            <input type="radio" id="line" name="radio" value="line">
-                            <label for="line">Line</label><br><br><br><br><br>
+                            <input type="radio" name="radio" value="color">
+                            <label for="color">Color</label>&nbsp;
+                            <label for="color">(black, red, green,...)</label><br>
+                            <input type="radio" name="radio" value="brand">
+                            <label for="brand">Brand</label>&nbsp;
+                            <label for="brand">(Tesla, Toyota, Ford,...)</label><br>
+                            <input type="radio" name="radio" value="motor">
+                            <label for="motor">Motor</label>&nbsp;
+                            <label for="motor">(Gas, Electric, Hybrid,...)</label><br>
+                            <input type="radio" name="radio" value="year">
+                            <label for="year">Year</label>&nbsp;
+                            <label for="year">(2006, 2008, 2022,...)</label><br>
+                            <input type="radio" name="radio" value="office">
+                            <label for="office">Office</label>&nbsp;
+                            <label for="office">(Egypt, Japan, Germany,...)</label><br>
+                            <input type="radio" name="radio" value="line">
+                            <label for="line">Line</label>&nbsp;
+                            <label for="line">(Basic, Top, Sport,...)</label><br><br><br><br>
                             </div>
                         </form>
                         <br><br> 
